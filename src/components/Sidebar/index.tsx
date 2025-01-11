@@ -4,14 +4,10 @@ import React, { useState } from "react";
 import { usePathname } from "next/navigation";
 import styles from "./Sidebar.module.scss";
 import Link from "next/link";
-import { pageEndPoints } from "@/utils/constants/appConstants";
 import { FaBars, FaTimes } from "react-icons/fa";
-import { MdDashboard } from "react-icons/md";
-import { TbScanEye } from "react-icons/tb";
-import { BiSpreadsheet } from "react-icons/bi";
-import { IoAnalyticsSharp } from "react-icons/io5";
-
-
+import { VscLayoutActivitybarRight } from "react-icons/vsc";
+import { RiStockFill } from "react-icons/ri";
+import { navLink } from "../NavLink";
 
 const Sidebar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -35,19 +31,23 @@ const Sidebar = () => {
       </div>
       <nav className={styles.nav}>
         <ul className={styles.navList}>
-          <li>
-            <Link href={pageEndPoints.dashboard} className={`${styles.navItem} ${getActiveClass(pageEndPoints.dashboard)}`}>
-              {isSidebarOpen ? (
-              <>
-                <MdDashboard />
-                Dashboard
-              </>
-                ) : <div className={styles.collapsedIcon}>
-                  <MdDashboard />
-                </div>}
-  
-            </Link>
-          </li>
+          {navLink.map((nav)=> {
+            const Icon = nav.icon;
+            return (
+              <li key={nav.name}>
+                <Link href={nav.pageUrl} className={`${styles.navItem} ${getActiveClass(nav.pageUrl)}`}>
+                  {isSidebarOpen ? (
+                  <>
+                    <Icon />
+                    {nav.name}
+                  </>
+                    ) : <div className={styles.collapsedIcon}>
+                      <Icon />
+                    </div>}
+                </Link>
+              </li>
+            )
+          })}
         </ul>
       </nav>
     </aside>
